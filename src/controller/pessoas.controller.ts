@@ -1,10 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { PessoaValidacaoPipe } from 'src/pipes/pessoa-validacao-parametros-pipes';
 //import { serviceConsumes } from 'src/service/serviceConsumes';
 import { Pessoa } from 'src/schemas/pessoa.schema';
 
 import { PessoasService } from '../service/pessoas.service';
 @Controller('api/pessoa')
+@ApiTags('Desafio')
 export class PessoasController {
 
   constructor(private pessoaService: PessoasService) { }

@@ -5,6 +5,7 @@ import { PessoaDto } from 'src/dtos/pessoa.dto';
 import { Pessoa } from 'src/schemas/pessoa.schema';
 import { ServiceConsumes } from './pessoa.service.apis';
 import siglas from 'siglas.json';
+import teste from 'teste.json';
 //import { serviceConsumes } from './serviceConsumes';
 
 @Injectable()
@@ -73,6 +74,7 @@ async createPersonByName(name: string):Promise<Pessoa> {
   
   await ServiceConsumes.searchNationByName(name)
   .then(res => {
+  
     pessoa.pais = siglas.data.find(element => element.sigla === res.data.country[0].country_id).nome_pais;
   })
   .catch(error => {
