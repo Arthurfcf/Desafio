@@ -1,6 +1,6 @@
 export class serviceConsumes {
     
-    static searchGenderByName(name:string){
+    static  searchGenderByName(name:string){
         fetch(`https://api.genderize.io/?name=${name}`)
         .then(res => res.json())
             .then(({name}) => {
