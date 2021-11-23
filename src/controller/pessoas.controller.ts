@@ -9,7 +9,7 @@ import { CreateSwagger } from 'src/swagger/createSwagger';
 import { IndexSwagger } from 'src/swagger/index.swagger';
 import { NotFoundSwagger } from 'src/swagger/not.found.swagger';
 import { InternalErrosServer } from 'src/swagger/server.error';
-import { UpdateSwagger } from 'src/swagger/upadte.swagger';
+import { UpdateSwagger } from 'src/swagger/udpate.swagger';
 
 import { PessoasService } from '../service/pessoas.service';
 @Controller('api/pessoa')

@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Pessoa } from "src/schemas/pessoa.schema";
 
-export class IndexSwagger extends Pessoa {
+export class UpdateSwagger extends Pessoa{
     @ApiProperty()
     statusCode: number;
     @ApiProperty()

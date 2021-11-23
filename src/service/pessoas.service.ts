@@ -10,9 +10,7 @@ import teste from 'teste.json';
 
 @Injectable()
 export class PessoasService  {
-  remove(id: string) {
-    throw new Error('Method not implemented.');
-  }
+  
   
     
   
