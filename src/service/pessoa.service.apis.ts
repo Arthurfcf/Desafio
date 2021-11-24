@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export class ServiceConsumes {
     
+    
     static async searchGenderByName(name){
         return await axios({
             method: 'GET',
