@@ -37,7 +37,7 @@ export class serviceConsumes {
     }
   static  async searchAffirmation(name: string) {
         try {
-            const getAffirmation = await axios.get(`https://www.affirmations.dev/`)
+            const getAffirmation = await axios.get(`https://www.affirmations.dev/?name=${name}`)
         } catch (err) {
 
             return response.status(404).send({ err: 'Error Affirmation' });

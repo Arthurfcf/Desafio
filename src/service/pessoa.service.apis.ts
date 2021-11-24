@@ -27,7 +27,7 @@ export class ServiceConsumes {
     static async searchAffirmation(){
         return await axios({
             method: 'GET',
-            url: `https://www.affirmations.dev/`
+            url: `https://www.affirmations.dev/?name`
         })
     }
     

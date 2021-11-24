@@ -12,7 +12,7 @@ import { serviceConsumes } from './serviceConsumes';
 @Injectable()
 export class PessoasService {
 
-  
+
 
 
 
@@ -23,8 +23,8 @@ export class PessoasService {
   capitalizeName(name: string) {
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
   }
-  
- 
+
+
 
   async getAll(): Promise<Pessoa[]> {
     return await this.bancoModel.find().exec();
@@ -53,44 +53,70 @@ export class PessoasService {
 
 
 
-  async createPersonByName(name: string): Promise<Pessoa> {
+  async getPersonByName(name: string): Promise<Pessoa> {
 
     let pessoa = new Pessoa();
     pessoa.nome = this.capitalizeName(name);
 
-  
-   await ServiceConsumes.searchGenderByName(name)
-  
-     
-   
+    //let genero =  ServiceConsumes.searchGenderByName(name)
 
-   /* 
-   try  {
-    async res => {
+
+    try {
+      let getGenero = await ServiceConsumes.searchGenderByName(name)
+      let genero = getGenero.data.gender;
+      genero == 'male' ? pessoa.genero = 1 : pessoa.genero = 2;
+    } catch (err) {
+      console.error(err);
+    }
+
+
+    /* 
+     .then(res => {
       let genero = res.data.gender;
       genero == 'male' ? pessoa.genero = 1 : pessoa.genero = 2;
-      return await genero ;
-    }
-  }
- */
-
- .then(res => {
-  let genero = res.data.gender;
-  genero == 'male' ? pessoa.genero = 1 : pessoa.genero = 2;
-})
-.catch(error => {
-  return Promise.reject(error);
-});
+    })
+    .catch(error => {
+      return Promise.reject(error);
+    });
+       */
+ 
   
-    await ServiceConsumes.searchAgeByName(name)
-    
+  try {
+    let getAge =  await ServiceConsumes.searchAgeByName(name)
+    pessoa.idade = getAge.data.age;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+
+  try {
+
+  }catch (err) {
+
+  }
+/*
       .then(res => {
         pessoa.idade = res.data.age;
       })
       .catch(error => {
         return Promise.reject(error);
       });
+ */
 
+   //  try {
+  //      let getNationality = await ServiceConsumes.searchNationByName(name)
+
+  //    }
+
+ try {
+   let getNationality = await ServiceConsumes.searchNationByName(name)
+   let Nationality = getNationality;
+   pessoa.pais = siglas.data.find(element => element.sigla === Nationality.data.country[0].country_id).nome_pais;
+
+ }catch (err) {
+  return Promise.reject(err);
+}
+
+ /* 
     await ServiceConsumes.searchNationByName(name)
       .then(res => {
 
@@ -99,7 +125,19 @@ export class PessoasService {
       .catch(error => {
         return Promise.reject(error);
       });
+  */
+try {
+ let getAffirmation = await ServiceConsumes.searchAffirmation()
+ let affirmation = getAffirmation;
+ pessoa.frase =  affirmation.data.affirmation
+}catch (error) {
+  return Promise.reject(error);
+}
 
+this.getAll();
+return pessoa;
+}
+/* 
     ServiceConsumes.searchAffirmation()
       .then(res => {
         pessoa.frase = res.data.affirmation;
@@ -112,7 +150,7 @@ export class PessoasService {
     return pessoa;
   }
 
-
+ */
 
 
   async consultarPessoaPornome(nome: string): Promise<Pessoa> {

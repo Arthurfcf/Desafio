@@ -68,13 +68,13 @@ export class PessoasController {
   }
 
   
-  @Post('/create/:name')
+  @Get('/BuscaApiExterna/:name')
   @ApiProperty()
   @ApiOperation({summary: 'Cria item utilizando os parametros da API externa'})
   @ApiResponse({status: 200, description: 'Cria usuário usando APIs externas'})
   @UsePipes(ValidationPipe)
-  async createPersonByName(@Param('name') name: string): Promise<Pessoa> {
-    return await this.pessoaService.createPersonByName(name);
+  async getPersonByName(@Param('name') name: string): Promise<Pessoa> {
+    return await this.pessoaService.getPersonByName(name);
   }
 
   @Put('/:_id')
