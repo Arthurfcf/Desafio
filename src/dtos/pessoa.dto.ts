@@ -4,20 +4,15 @@ import { Genero } from 'src/interface/enum';
 import { Pessoa } from 'src/schemas/pessoa.schema';
 import { ApiProperty } from '@nestjs/swagger';
 export class PessoaDto implements Pessoa{
-@IsNotEmpty()
-@ApiProperty()
+@IsNotEmpty() @ApiProperty()
     "nome": String;
-    @IsNotEmpty()
-    @ApiProperty()
+    @IsNotEmpty() @ApiProperty()
     "genero": Genero;
-    @IsNotEmpty()
-    @ApiProperty()
+    @IsNotEmpty() @ApiProperty()
     "pais": String;
-    @IsNotEmpty()
-    @ApiProperty()
+    @IsNotEmpty() @ApiProperty()
     "idade": Date;
-    @IsNotEmpty()
-    @ApiProperty()
+    @IsNotEmpty() @ApiProperty()
     "frase": String;
 
-}
+} 

@@ -1,4 +1,4 @@
-import { forwardRef, HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { forwardRef, HttpException, Injectable, NotFoundException, Param } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { PessoaDto } from 'src/dtos/pessoa.dto';
@@ -7,16 +7,11 @@ import { ServiceConsumes } from './pessoa.service.apis';
 import siglas from 'siglas.json';
 import teste from 'teste.json';
 import { serviceConsumes } from './serviceConsumes';
-//import { serviceConsumes } from './serviceConsumes';
+
 
 @Injectable()
 export class PessoasService {
 
-
-
-
-
-  //constructor(@Inject(forwardRef(() => TokenService)) private readonly tokenService: TokenService) {}
   constructor(@InjectModel('Banco') private readonly bancoModel: Model<Pessoa>) {
 
   }
@@ -26,13 +21,8 @@ export class PessoasService {
 
 
 
-  async getAll(): Promise<Pessoa[]> {
-    return await this.bancoModel.find().exec();
-  }
 
   async getByNome(_name: string): Promise<Pessoa[]> {
-
-
 
     const nome = this.capitalizeName(_name);
 
@@ -43,23 +33,11 @@ export class PessoasService {
     return content;
   }
 
-  async getById(id: string): Promise<Pessoa> {
-    const content = await this.bancoModel.findById(id).exec();
-    if (content.$isEmpty) {
-      return Promise.reject(new HttpException('Pessoa não encontrada!', 404))
-    }
-    return content;
-  }
-
-
 
   async getPersonByName(name: string): Promise<Pessoa> {
 
     let pessoa = new Pessoa();
     pessoa.nome = this.capitalizeName(name);
-
-    //let genero =  ServiceConsumes.searchGenderByName(name)
-
 
     try {
       let getGenero = await ServiceConsumes.searchGenderByName(name)
@@ -68,18 +46,6 @@ export class PessoasService {
     } catch (err) {
       console.error(err);
     }
-
-
-    /* 
-     .then(res => {
-      let genero = res.data.gender;
-      genero == 'male' ? pessoa.genero = 1 : pessoa.genero = 2;
-    })
-    .catch(error => {
-      return Promise.reject(error);
-    });
-       */
- 
   
   try {
     let getAge =  await ServiceConsumes.searchAgeByName(name)
@@ -88,24 +54,7 @@ export class PessoasService {
     return Promise.reject(err);
   }
 
-  try {
-
-  }catch (err) {
-
-  }
-/*
-      .then(res => {
-        pessoa.idade = res.data.age;
-      })
-      .catch(error => {
-        return Promise.reject(error);
-      });
- */
-
-   //  try {
-  //      let getNationality = await ServiceConsumes.searchNationByName(name)
-
-  //    }
+ 
 
  try {
    let getNationality = await ServiceConsumes.searchNationByName(name)
@@ -137,22 +86,10 @@ try {
 this.getAll();
 return pessoa;
 }
-/* 
-    ServiceConsumes.searchAffirmation()
-      .then(res => {
-        pessoa.frase = res.data.affirmation;
-      })
-      .catch(error => {
-        return Promise.reject(error);
-      });
 
-    this.create(pessoa);
-    return pessoa;
-  }
-
- */
-
-
+async getAll(): Promise<Pessoa[]> {
+  return await this.bancoModel.find().exec();
+}
   async consultarPessoaPornome(nome: string): Promise<Pessoa> {
     const PessoaEncontrada = await this.bancoModel.findOne({ nome }).exec();
 
@@ -162,9 +99,8 @@ return pessoa;
     return PessoaEncontrada
   }
 
-  async consultarPessoaPeloId(_id: string): Promise<Pessoa> {
-    const PessoaEncontrada = await this.bancoModel.findById({ _id }).exec();
-
+  async consultarPessoaPeloId(_id: string): Promise<PessoaDto> {
+    const PessoaEncontrada = await this.bancoModel.findById({_id}).exec();
     if (!PessoaEncontrada) {
       throw new NotFoundException(`Pessoa com id ${_id} não encontrado`)
     }
@@ -204,58 +140,5 @@ return pessoa;
 
 
 }
-/*
-   async getInfosByName(name: string):Promise<Pessoa> {
-
-    let pessoa = new Pessoa();
-
-    pessoa.genero = serviceConsumes.searchGenderByName(name);
-
-    pessoa.idade = serviceConsumes.searchAgeByName(name);
-
-    pessoa.pais = serviceConsumes.searchNationByName(name);
-
-    pessoa.frase = serviceConsumes.searchAffirmation()
-
-    return pessoa
-
-}
-//  async getAll():Promise<Pessoa>{
-
- //      return await this.bancoModel.find().exec();
-//    }
- // async getByNome(nome:String):Promise<Pessoa[]>{
- //   return await this.bancoModel.find({ nome: nome }).exec();
-//}
-
-//    async ConsultaPorNome(nome:String): Promise<Pessoa> {
-
-  //    const nomeEncontrado = await this.bancoModel.findOne({nome}).exec();
- //     if (!nomeEncontrado) {
- //         throw new NotFoundException(`Pessoa com nome ${nome} não encontrado`)
- //     }
- //     return nomeEncontrado
- // }
-
- //   async getById(_id:string):Promise<Pessoa>{
-
- //     return await this.bancoModel.findById({_id}).exec();
- //   }
-
- // async  create(pessoa:Pessoa){
-//       const criarPessoa = new this.bancoModel(pessoa);
-//       return await criarPessoa.save();
-//    }
-
-//    async atualizar( criarPessoa:Pessoa):Promise<Pessoa>{
-//      return  await this.bancoModel.findByIdAndUpdate({nome:criarPessoa.nome},{$set:criarPessoa}).exec();
-
- //    }
-    /*
-   async update(id:string,pessoa:Pessoa){
-       await this.bancoModel.updateOne({_id: id}, pessoa).exec()
-        return this.getById(id)
-    }*/
-
 
 
